@@ -1,4 +1,4 @@
-# 🚗 Sistema de Detección de Proximidad (RTOS)
+# 🚗 Sistema de Detección de Proximidad
 
 Proyecto para la asignatura de **Sistemas de Control en Tiempo Real**. 
 Este sistema implementa un "asistente de aparcamiento" utilizando una **Raspberry Pi Pico**, que mide la distancia mediante ultrasonidos y alerta al usuario mediante señales visuales (LEDs + Pantalla OLED) y sonoras (Buzzer).

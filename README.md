@@ -48,9 +48,9 @@ Siguiendo un enfoque de calidad total, la fase de **Validación y Documentación
 * **Documentación:** Todos contribuyen a la redacción de la memoria técnica y la grabación de la demo final.
 
 ## 👥 Autores
-Uxía Barja López
-Itahisa Brea Portals
-José Cruz Vizcaíno
-Pablo González Valderrábano
+Uxía Barja López <br>
+Itahisa Brea Portals <br>
+José Cruz Vizcaíno <br>
+Pablo González Valderrábano <br>
 ---
 *Proyecto desarrollado en la Universidade de Vigo - Curso 2025/2026*

@@ -19,7 +19,12 @@ Lista de materiales utilizados en el proyecto:
 
 
 ## 🚦 Lógica de Control
-
+El sistema opera bajo los siguientes estados según la distancia medida:
+| Zona | Distancia | LED | Pantalla | Buzzer |
+| :--- | :--- | :--- | :--- | :--- |
+| **SEGURA** | > 15 cm | 🟢 Verde | "-" | Off |
+| **PRECAUCIÓN** | 5 - 15 cm | 🟠 Ámbar | "CUIDADO!" | Intermitente |
+| **PELIGRO** | < 5 cm | 🔴 Rojo | "PARA!!" | Rápido/Continuo |
 
 ## 🚀 Instalación y Uso
 

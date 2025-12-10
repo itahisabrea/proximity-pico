@@ -42,9 +42,9 @@ Configuración física de los pines según el diseño hardware:
 | **Sensor TRIG** | GP2 | 4 | Directo |
 | **Sensor ECHO** | GP3 | 5 | ⚠️ **Divisor de Tensión** (5V -> 3.3V) |
 | **Buzzer** | GP15 | 20 | Directo |
-| **LED Rojo** | GP16 | 21 | Resistencia 220Ω |
-| **LED Ámbar** | GP17 | 22 | Resistencia 220Ω |
-| **LED Verde** | GP18 | 24 | Resistencia 220Ω |
+| **LED Rojo** | GP16 | 21 | Resistencia 330Ω |
+| **LED Ámbar** | GP17 | 22 | Resistencia 330Ω |
+| **LED Verde** | GP18 | 24 | Resistencia 330Ω |
 
 ## 🚦 Lógica de Control
 

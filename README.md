@@ -11,7 +11,7 @@ Lista de materiales utilizados en el proyecto:
 * **Sensor:** Ultrasonido HC-SR04
 * **Pantalla:** OLED I2C 1.3" (Driver **NO SE SABE**)
 * **Actuadores:**
-    * 3x LEDs (Rojo, Ámbar, Verde) con resistencias de 220Ω en serie.
+    * 3x LEDs (Rojo, Ámbar, Verde) con resistencias de 330Ω en serie.
     * 1x Buzzer Activo.
 * **Varios:** Protoboard, cables jumper.
 

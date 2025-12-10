@@ -30,7 +30,7 @@ target_include_directories(sctr_app PRIVATE
 target_link_libraries(sctr_app 
     pico_stdlib
     hardware_pwm  # Necesario para el buzzer
-    hardware_i2c  # Necesario para la pantalla OLED (¡Ya lo tenías bien puesto!)
+    hardware_i2c  # Necesario para la pantalla OLED
 )
 
 # 6. Generar el archivo .uf2 para la placa

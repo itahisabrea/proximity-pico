@@ -1,23 +1,36 @@
-/*
- * Archivo: hcsr04.c
- * Descripción: Implementación del driver de bajo nivel para el sensor HC-SR04.
+/* * Archivo: main.c
+ * Descripción: Cerebro principal del sistema SCTR.
  */
 
-#include "drivers/hcsr04/hcsr04.h"
-#include "pico/stdlib.h"
 #include <stdio.h>
+#include "pico/stdlib.h"       // Librería base de la Raspberry 
+#include "hal/hal_sensor.h"    // Interfaz del sensor (Conexión con uxiii)
+#include "hal/hal_output.h"    // Interfaz de salidas (Conexión con Josechu)
 
-void DRIVER_hcsr04_init(void) {
-    // TODO: configurar los pines Trigger y Echo aquí.
-    #warning "hcsr04.c: Pendiente la configuración de GPIOs."
-}
+int main(void) {
+    // 1. Inicialización básica de la consola 
+    stdio_init_all();
 
-float DRIVER_hcsr04_read(void) {
-    // TODO: implementar la lógica de:
-    // 1. Pulso en Trigger.
-    // 2. Medir tiempo que dura el pulso en Echo.
-    // 3. Convertir tiempo a distancia (Distancia = tiempo * velocidad_sonido / 2).
-    #warning "hcsr04.c: Pendiente la lógica de medición."
-  
-    return 0.0f; // Devolver 0.0 mientras está vacío
+    // 2. Inicialización del Hardware (Aquí llamamos a las capas inferiores)
+    printf("Iniciando sistema SCTR...\n");
+    
+    HAL_sensor_init();  // Prepara los pines del sensor
+    HAL_output_init();  // Prepara la pantalla y LEDs
+
+    // 3. Bucle infinito
+    while (1) {
+        // --- A. LEER ---
+        // float distancia = HAL_get_distance_cm();
+
+        // --- B. DECIDIR ---
+        // Aquí pondremos los IF/ELSE para decidir si es VERDE, AMBAR o ROJO
+        
+        // --- C. ACTUAR  ---
+        // HAL_set_system_state(estado_decidido);
+
+        // Pequeña pausa (100ms = 10 veces por segundo)
+        sleep_ms(100);
+    }
+    
+    return 0;
 }

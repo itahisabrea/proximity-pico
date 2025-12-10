@@ -9,9 +9,9 @@ Lista de materiales utilizados en el proyecto:
 
 * **Microcontrolador:** Raspberry Pi Pico (RP2040)
 * **Sensor:** Ultrasonido HC-SR04
-* **Pantalla:** OLED I2C 1.3" (Driver **NO SE SABE**)
+* **Pantalla:** OLED I2C 1.3" (Driver **SSD1306**)
 * **Actuadores:**
-    * 3x LEDs (Rojo, Ámbar, Verde) con resistencias de 330Ω en serie.
+    * 3x LEDs (Rojo, Ámbar, Verde) con resistencias de 220Ω en serie.
     * 1x Buzzer Activo.
 * **Varios:** Protoboard, cables jumper.
 
@@ -42,9 +42,9 @@ Configuración física de los pines según el diseño hardware:
 | **Sensor TRIG** | GP2 | 4 | Directo |
 | **Sensor ECHO** | GP3 | 5 | ⚠️ **Divisor de Tensión** (5V -> 3.3V) |
 | **Buzzer** | GP15 | 20 | Directo |
-| **LED Rojo** | GP16 | 21 | Resistencia 330Ω |
-| **LED Ámbar** | GP17 | 22 | Resistencia 330Ω |
-| **LED Verde** | GP18 | 24 | Resistencia 330Ω |
+| **LED Rojo** | GP16 | 21 | Resistencia 220Ω |
+| **LED Ámbar** | GP17 | 22 | Resistencia 220Ω |
+| **LED Verde** | GP18 | 24 | Resistencia 220Ω |
 
 ## 🚦 Lógica de Control
 

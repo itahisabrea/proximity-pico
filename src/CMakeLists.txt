@@ -1,37 +1,36 @@
-# 1. Configuración básica
+# Configuración básica
 cmake_minimum_required(VERSION 3.13)
 
 # Importar el SDK 
 include(pico_sdk_import.cmake)
 
-# 2. Nombre de nuestro proyecto (lo he puesto así temporalmente
-project(sctr_project)
+# Nombre del proyecto
+project(proximity-pico)
 
 # Inicializar SDK
 pico_sdk_init()
 
-# 3. Crear el ejecutable
-add_executable(sctr_app
-    app/main.c
-    # Aquí iremos añadiendo los archivos .c del HAL y Drivers más adelante
-    # Por ejemplo:
-    # hal/hal_sensor.c
-    # drivers/hcsr04/hcsr04.c
+# -----------------------------------------------------------
+# LISTA DE ARCHIVOS .C
+# Aquí añadimos todos los archivos que hemos creado.
+# -----------------------------------------------------------
+add_executable(proximity_pico
+    src/main.c                    
+    src/hal/hal_sensor.c           
+    src/hal/hal_output.c           
+    src/drivers/hcsr04/hcsr04.c    
+    # NOTA: Cuando tengamos el driver de la pantalla, añadir aquí src/drivers/oled/ssd1306.c
 )
 
-# 4. Decirle dónde están los archivos de cabecera (.h)
-target_include_directories(sctr_app PRIVATE
-    app
-    hal
-    drivers
+target_include_directories(proximity_pico PRIVATE
+    src
 )
 
-# 5. Enlazar librerías estándar
-target_link_libraries(sctr_app 
+target_link_libraries(proximity_pico
     pico_stdlib
-    hardware_pwm  # Necesario para el buzzer creo
-    hardware_i2c  # Necesario para la pantalla OLED
+    hardware_pwm 
+    hardware_i2c    
 )
 
-# 6. Generar el archivo .uf2 para la placa
-pico_add_extra_outputs(sctr_app)
+# Generar el archivo final (.uf2)
+pico_add_extra_outputs(proximity_pico)

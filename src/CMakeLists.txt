@@ -15,7 +15,7 @@ pico_sdk_init()
 # Aquí añadimos todos los archivos que hemos creado.
 # -----------------------------------------------------------
 add_executable(proximity_pico
-    src/main.c                    
+    src/app/main.c                    
     src/hal/hal_sensor.c           
     src/hal/hal_output.c           
     src/drivers/hcsr04/hcsr04.c    

@@ -1,15 +1,15 @@
 /*
  * Archivo: hcsr04.h
- * Descripción: Cabecera del driver del sensor. Definimos las funciones que puede usar el resto del programa.
+ * Descripción: Cabecera del driver. Interfaz limpia y sencilla.
  */
 
 #ifndef HCSR04_H
 #define HCSR04_H
 
-// Inicializa los pines del sensor (Trigger salida, Echo entrada)
+// Inicializa los pines (los coge internamente de pinout.h)
 void DRIVER_hcsr04_init(void);
 
-// Lanza el pulso, mide el tiempo y devuelve la distancia en cm
+// Lee la distancia. Devuelve el valor en cm o -1.0 si falla.
 float DRIVER_hcsr04_read(void);
 
 #endif // HCSR04_H

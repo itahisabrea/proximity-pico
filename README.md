@@ -17,7 +17,11 @@ Lista de materiales utilizados en el proyecto:
 
 > **Nota de Alimentación:** El sensor HC-SR04 se alimenta a **5V (VBUS, Pin 40)**, mientras que la pantalla OLED va a **3.3V (Pin 36)**.
 
-![Esquema de Conexiones] (Añadir foto aquí!!!) *(Diagrama de conexiones y montaje final)*
+<img width="627" height="749" alt="image" src="https://github.com/user-attachments/assets/0c84c335-ae65-4d01-99a2-ebf89d786eee" />
+
+<img width="2048" height="1536" alt="image" src="https://github.com/user-attachments/assets/20cb3368-d50b-4204-92db-d609c49867d1" />
+
+
 
 ## 🏗️ Arquitectura del Software
 

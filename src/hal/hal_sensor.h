@@ -1,7 +1,7 @@
 /*
  * Archivo: hal_sensor.h
- * Descripción: Interfaz para el sensor ultrasónico (HC-SR04).
- En principio este archivo no se debería modificar (revisarlo y esas cosas)
+ * Descripción: Interfaz pública del sensor de distancia.
+ * La aplicación usará estas funciones sin preocuparse del hardware.
  */
 
 #ifndef HAL_SENSOR_H
@@ -9,15 +9,10 @@
 
 #include <stdint.h>
 
-/**
- * @brief Inicializa los pines del sensor (Trigger y Echo).
- */
+// Inicializa el hardware del sensor
 void HAL_sensor_init(void);
 
-/**
- * @brief Mide la distancia y aplica el filtrado necesario.
- * @return Distancia medida en centímetros (cm).
- */
+// Mide la distancia en cm aplicando filtrado de errores
 float HAL_get_distance_cm(void);
 
-#endif 
+#endif

@@ -104,7 +104,7 @@ void HAL_set_system_state(SystemState_t state) {
     // Si no, se queda apagado gracias a esta llamada.
     detener_parpadeo_buzzer();
 
-    switch (state) {
+switch (state) {
         case STATE_GREEN:
             gpio_put(LED_GREEN_PIN, 1);
             oled_print_text("SEGURO");

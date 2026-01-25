@@ -17,13 +17,24 @@ Lista de materiales utilizados en el proyecto:
 
 > **Nota de Alimentación:** El sensor HC-SR04 se alimenta a **5V (VBUS, Pin 40)**, mientras que la pantalla OLED va a **3.3V (Pin 36)**.
 
+<img width="627" height="749" alt="image" src="https://github.com/user-attachments/assets/0c84c335-ae65-4d01-99a2-ebf89d786eee" />
+
+<img width="2048" height="1536" alt="image" src="https://github.com/user-attachments/assets/20cb3368-d50b-4204-92db-d609c49867d1" />
+
+
+
 ## 🏗️ Arquitectura del Software
 
 El proyecto sigue una estructura modular estricta para garantizar la escalabilidad y el mantenimiento:
 
-    ├── app/        # Capa de Aplicación (Lógica de control y FSM)
-    ├── hal/        # Hardware Abstraction Layer (Interfaz genérica)
-    └── drivers/    # Drivers de bajo nivel (HC-SR04, DRIVER PANTALLA)
+```text
+.
+├── CMakeLists.txt
+└── src/
+    ├── app/       
+    ├── hal/        
+    └── drivers/   
+```
 
 ### ⚠️ Regla de Oro de Integración
 Para evitar dependencias cruzadas ("código espagueti"), el equipo sigue esta jerarquía:
@@ -56,6 +67,11 @@ El sistema opera bajo los siguientes estados según la distancia medida:
 | **PRECAUCIÓN** | 5 - 15 cm | 🟠 Ámbar | "CUIDADO!" | Intermitente |
 | **PELIGRO** | < 5 cm | 🔴 Rojo | "PARA!!" | Rápido/Continuo |
 
+## ⭐ Características Destacadas
+
+* **Máquina de Estados:** Se ha implementado una matriz de punteros a función para transiciones deterministas y limpias.
+* **Debug Log:** Salida por puerto serie (USB) cada segundo reportando estado y distancia para facilitar la depuración sin osciloscopio.
+  
 ## 🚀 Instalación y Uso
 
 Requisitos: **CMake**, **GCC-ARM-NONE-EABI** y **Pico SDK**.

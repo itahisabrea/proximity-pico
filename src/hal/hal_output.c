@@ -5,7 +5,7 @@
  */
 
 #include "hal/hal_output.h"
-#include "hal/pinout.h"    // <--- IMPORTANTE: Aquí están definidos LED_RED_PIN, etc.
+#include "hal/pinout.h"
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
 
@@ -14,7 +14,6 @@
 
 void HAL_output_init(void) {
     // --- 1. CONFIGURACIÓN DE LEDS Y BUZZER ---
-    // Usamos los nombres que definiste en pinout.h
     const uint pins_salida[] = {LED_RED_PIN, LED_ORANGE_PIN, LED_GREEN_PIN, BUZZER_PIN};
     
     for (int i = 0; i < 4; i++) {
@@ -39,47 +38,31 @@ void HAL_output_init(void) {
 }
 
 void HAL_set_system_state(SystemState_t state) {
-    // Apagamos todo para asegurar un estado limpio antes de encender lo nuevo
+    // Apagamos todo para asegurar un estado limpio
     gpio_put(LED_RED_PIN, 0);
     gpio_put(LED_ORANGE_PIN, 0);
     gpio_put(LED_GREEN_PIN, 0);
     gpio_put(BUZZER_PIN, 0);
 
-    /* * TAREA JOSECHU/PABLO: 
-     * Rellenad el switch para encender lo que toque en cada caso.
-     * NOTA DEL EQUIPO: Ya hemos dejado programados los LEDs y el Buzzer, 
-     * falta implementar la pantalla.
-     */
-
-    switch (state) {
+switch (state) {
         case STATE_GREEN:
-            // TODO: Encender LED Verde -> HECHO
+            // Caso Seguro
             gpio_put(LED_GREEN_PIN, 1);
-            
-            // TODO: Escribir "SEGURO" en la pantallita
-            // oled_print("SEGURO");
+            // TODO: oled_print("SEGURO");
             break;
 
         case STATE_AMBER:
-            // TODO: Encender LED Ámbar -> HECHO
+            // Caso Precaución
             gpio_put(LED_ORANGE_PIN, 1);
-            
-            // TODO: Hacer sonar el Buzzer bajito -> (De momento apagado en precaución)
-            // gpio_put(BUZZER_PIN, 0); 
-
-            // TODO: Escribir "PRECAUCION" en la pantallita
-            // oled_print("PRECAUCION");
+            // Opcional: Pitido corto si queremos (por ahora está apagado)
+            // TODO: oled_print("CUIDADO");
             break;
 
         case STATE_RED:
-            // TODO: Encender LED Rojo -> HECHO
+            // Caso Peligro
             gpio_put(LED_RED_PIN, 1);
-            
-            // TODO: Encender Buzzer a todo volumen -> HECHO
             gpio_put(BUZZER_PIN, 1); 
-            
-            // TODO: Escribir "PELIGRO" en la pantallita
-            // oled_print("PELIGRO");
+            // TODO: oled_print("STOP!!");
             break;
     }
 }

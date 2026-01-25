@@ -1,32 +1,28 @@
-/*
- * Archivo: hal_sensor.c
- * Qué hace: Hace de puente entre nuestro código principal y el driver del sensor.
- * Así si cambiamos el sensor mañana, solo tocamos este archivo.
- */
+#include "hal_sensor.h"
+#include "driver_distance.h" // Incluimos el driver de Uxía
+#include "pinout.h"          // Incluimos pines
 
-#include "hal/hal_sensor.h"
-#include "drivers/hcsr04/hcsr04.h" // Aquí están las funciones de bajo nivel
+// Instancia privada del sensor
+static distance_sensor_t g_sensor_hw = {
+    .trig_gpio = HCSR04_TRIG_PIN,
+    .echo_gpio = HCSR04_ECHO_PIN
+};
 
-// Configuración inicial
 void HAL_sensor_init(void) {
-    // 1. Inicializar el hardware
-    // Aquí solo hay que llamar a la función de inicio que está en el driver DRIVER_sensor_init().
-    // Si no llamamos a esto, el sensor no arranca.
+    // Inicializamos el driver usando la estructura configurada
+    distance_init(&g_sensor_hw);
 }
 
-// Función principal para pedir la distancia
 float HAL_get_distance_cm(void) {
-    float final_distance = 0.0f;
+    float raw_val;
     
-    // 2. Pedir el dato crudo
-    // Llamar a la función de lectura del driver y guardarlo.
-    // float lectura = DRIVER_sensor_read();
+    // Llamamos al driver
+    bool ok = distance_read_cm(&g_sensor_hw, &raw_val);
     
-    // 3. Filtrado (Opcional pero recomendado)
-    // El sensor a veces devuelve basura (ceros o números gigantes).Aquí podríamos poner un if simple:
-    // Si la lectura es > 400 o < 0, devolvemos la última distancia válida. Si no, devolvemos la lectura actual.
+    // Si falla, devolvemos -1.0 para que la Máquina de Estados lo ignore
+    if (!ok) {
+        return -1.0f;
+    }
     
-    final_distance = /* poner aquí la variable con el dato procesado */;
-    
-    return final_distance;
+    return raw_val;
 }

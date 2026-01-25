@@ -28,11 +28,11 @@ void HAL_output_init(void) {
      * Seguramente necesitemos algo parecido a esto:
      */
     
-    // i2c_init(I2C_PORT, 400 * 1000);
-    // gpio_set_function(PIN_I2C_SDA, GPIO_FUNC_I2C);
-    // gpio_set_function(PIN_I2C_SCL, GPIO_FUNC_I2C);
-    // gpio_pull_up(PIN_I2C_SDA);
-    // gpio_pull_up(PIN_I2C_SCL);
+    // i2c_init(OLED_I2C_PORT, OLED_BAUDRATE); // Usando constantes de pinout.h
+    // gpio_set_function(OLED_SDA_PIN, GPIO_FUNC_I2C);
+    // gpio_set_function(OLED_SCL_PIN, GPIO_FUNC_I2C);
+    // gpio_pull_up(OLED_SDA_PIN);
+    // gpio_pull_up(OLED_SCL_PIN);
     
     // NOMBRELIBRERIA_init(); // <--- Llamada a la libreria
 }

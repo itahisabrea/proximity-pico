@@ -1,15 +1,14 @@
-/*
- * Archivo: hcsr04.h
- * Descripción: Cabecera del driver del sensor. Definimos las funciones que puede usar el resto del programa.
- */
+#ifndef DRIVER_DISTANCE_H
+#define DRIVER_DISTANCE_H
 
-#ifndef HCSR04_H
-#define HCSR04_H
+#include <stdbool.h>
 
-// Inicializa los pines del sensor (Trigger salida, Echo entrada)
-void DRIVER_hcsr04_init(void);
+typedef struct {
+    int trig_gpio;
+    int echo_gpio;
+} distance_sensor_t;
 
-// Lanza el pulso, mide el tiempo y devuelve la distancia en cm
-float DRIVER_hcsr04_read(void);
+void distance_init(const distance_sensor_t *s);
+bool distance_read_cm(const distance_sensor_t *s, float *out_cm);
 
-#endif // HCSR04_H
+#endif

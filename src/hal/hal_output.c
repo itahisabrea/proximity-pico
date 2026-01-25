@@ -55,6 +55,13 @@ void HAL_set_system_state(SystemState_t state) {
     gpio_put(LED_GREEN_PIN, 0);
     gpio_put(BUZZER_PIN, 0);
 
+void HAL_Msg(void) {
+    const char *message = "CHICKEN DETECTED";
+    memset(ssd, 0, ssd1306_buffer_length);
+    ssd1306_draw_string_absolute(ssd, 5, 1, message);
+    render_on_display(ssd, &frame_area);
+}
+
 switch (state) {
         case STATE_GREEN:
             // Caso Seguro
@@ -73,6 +80,7 @@ switch (state) {
             // Caso Peligro
             gpio_put(LED_RED_PIN, 1);
             gpio_put(BUZZER_PIN, 1); 
+            HAL_msg();
             // TODO: oled_print("STOP!!");
             break;
     }

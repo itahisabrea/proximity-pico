@@ -38,7 +38,7 @@ void HAL_output_init(void) {
      */
     
     // i2c_init(I2C_PORT, 400 * 1000);
-    i2c_init(i2c1, ssd1306_i2c_clock * 1000);
+    i2c_init(i2c0, ssd1306_i2c_clock * 1000);
     gpio_set_function(0, GPIO_FUNC_I2C); // SDA
     gpio_set_function(1, GPIO_FUNC_I2C); // SCL
     gpio_pull_up(0); // Pull-up para SDA

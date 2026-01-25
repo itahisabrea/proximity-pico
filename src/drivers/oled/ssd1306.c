@@ -16,7 +16,7 @@ void calculate_render_area_buffer_length(struct render_area *area) {
 // Processo de escrita do i2c espera um byte de controle, seguido por dados
 void ssd1306_send_command(uint8_t command) {
     uint8_t buffer[2] = {0x80, command};
-    i2c_write_blocking(i2c1, ssd1306_i2c_address, buffer, 2, false);
+    i2c_write_blocking(i2c0, ssd1306_i2c_address, buffer, 2, false);
 }
 
 // Envia uma lista de comandos ao hardware
@@ -33,7 +33,7 @@ void ssd1306_send_buffer(uint8_t ssd[], int buffer_length) {
     temp_buffer[0] = 0x40;
     memcpy(temp_buffer + 1, ssd, buffer_length);
 
-    i2c_write_blocking(i2c1, ssd1306_i2c_address, temp_buffer, buffer_length + 1, false);
+    i2c_write_blocking(i2c0, ssd1306_i2c_address, temp_buffer, buffer_length + 1, false);
 
     free(temp_buffer);
 }

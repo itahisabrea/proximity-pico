@@ -13,7 +13,7 @@ Lista de materiales utilizados en el proyecto:
 * **Actuadores:**
     * 3x LEDs (Rojo, Ámbar, Verde) con resistencias de 220Ω en serie.
     * 1x Buzzer Activo.
-* **Varios:** Protoboard, cables jumper.
+* **Varios:** Protoboard, cables.
 
 > **Nota de Alimentación:** El sensor HC-SR04 se alimenta a **5V (VBUS, Pin 40)**, mientras que la pantalla OLED va a **3.3V (Pin 36)**.
 
@@ -50,8 +50,12 @@ Configuración física de los pines según el diseño hardware:
 | :--- | :--- | :--- | :--- |
 | **OLED SDA** | GP0 | 1 | Directo |
 | **OLED SCL** | GP1 | 2 | Directo |
+| **OLED VDD** | 3V3 | 36 | Directo |
+| **OLED GND** | GND | 38 | Directo |
+| **Sensor GND** | GND | 3 | Directo |
 | **Sensor TRIG** | GP2 | 4 | Directo |
 | **Sensor ECHO** | GP3 | 5 | ⚠️ **Divisor de Tensión** (5V -> 3.3V) |
+| **Sensor VCC** | VBUS | 40 | Directo |
 | **Buzzer** | GP15 | 20 | Directo |
 | **LED Rojo** | GP16 | 21 | Resistencia 220Ω |
 | **LED Ámbar** | GP17 | 22 | Resistencia 220Ω |
@@ -63,14 +67,13 @@ El sistema opera bajo los siguientes estados según la distancia medida:
 
 | Zona | Distancia | LED | Pantalla | Buzzer |
 | :--- | :--- | :--- | :--- | :--- |
-| **SEGURA** | > 15 cm | 🟢 Verde | "-" | Off |
-| **PRECAUCIÓN** | 5 - 15 cm | 🟠 Ámbar | "CUIDADO!" | Intermitente |
-| **PELIGRO** | < 5 cm | 🔴 Rojo | "PARA!!" | Rápido/Continuo |
+| **SEGURA** | > 15 cm | 🟢 Verde | "SEGURO" | Off |
+| **PRECAUCIÓN** | 5 - 15 cm | 🟠 Ámbar | "PRECAUCION" | Intermitente (1000ms) |
+| **PELIGRO** | < 5 cm | 🔴 Rojo | "PELIGRO" | Continuo |
 
 ## ⭐ Características Destacadas
 
 * **Máquina de Estados:** Se ha implementado una matriz de punteros a función para transiciones deterministas y limpias.
-* **Debug Log:** Salida por puerto serie (USB) cada segundo reportando estado y distancia para facilitar la depuración sin osciloscopio.
   
 ## 🚀 Instalación y Uso
 
@@ -99,8 +102,8 @@ Adaptando la metodología al flujo de trabajo del equipo, se definen los siguien
     * **Rol:** Líder de Integración.
     * *Funciones:* Coordinación del repositorio Git, gestión de ramas (branches) y fusión final de módulos.
 * **Uxía** (@uxiibl)
-    * **Rol:** Responsable Hardware y Señales.
-    * *Funciones:* Diseño del circuito, montaje en protoboard, conexiones y caracterización del sensor.
+    * **Rol:** Responsable Hardware, Señales y Pruebas Funcionales.
+    * *Funciones:* Diseño del circuito, montaje en protoboard, pruebas funcionales, conexiones y caracterización del sensor.
 * **Josechu** (@RetornoDeLinea007) y **Pablo** (@Arknarr)
     * **Rol:** Responsables de Software y Tiempo Real.
     * *Funciones:* Desarrollo de la Máquina de Estados (FSM), drivers de actuadores, gestión de temporizadores e implementación de la lógica de control.
@@ -110,6 +113,12 @@ Siguiendo un enfoque de calidad total, la fase de **Validación y Documentación
 * **Pruebas Cruzadas:** Cada miembro valida el código/hardware desarrollado por otro compañero.
 * **Documentación:** Todos contribuyen a la redacción de la memoria técnica y la grabación de la demo final.
 
+## 📜 Créditos y Referencias
+
+El desarrollo de este proyecto se ha apoyado en librerías de código abierto:
+
+* **Driver OLED (SSD1306):** La biblioteca para el control de la pantalla OLED está basada en el trabajo de [Eudivanmelo](https://github.com/Eudivanmelo).
+  
 ## 👥 Autores
 Uxía Barja López <br>
 Itahisa Brea Portals <br>

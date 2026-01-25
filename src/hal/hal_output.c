@@ -12,10 +12,10 @@
 #include "drivers/oled/ssd1306.h"
 
 struct render_area frame_area = {
-    start_column : 0,
-    end_column : ssd1306_width - 1,
-    start_page : 0,
-    end_page : ssd1306_n_pages - 1
+    .start_column = 0,
+    .end_column = ssd1306_width - 1,
+    .start_page = 0,
+    .end_page = ssd1306_n_pages - 1
 };
 
 uint8_t ssd[ssd1306_buffer_length]; // Buffer de renderizado de la pantalla

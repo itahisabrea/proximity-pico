@@ -55,7 +55,7 @@ void HAL_set_system_state(SystemState_t state) {
     gpio_put(LED_GREEN_PIN, 0);
     gpio_put(BUZZER_PIN, 0);
 
-void HAL_Msg(void) {
+void HAL_msg(void) {
     const char *message = "CHICKEN DETECTED";
     memset(ssd, 0, ssd1306_buffer_length);
     ssd1306_draw_string_absolute(ssd, 5, 1, message);

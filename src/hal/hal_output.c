@@ -7,10 +7,18 @@
 #include "hal/hal_output.h"
 #include "hal/pinout.h"
 #include "pico/stdlib.h"
+#include <string.h>
 #include "hardware/i2c.h"
+#include "drivers/oled/ssd1306.h"
 
-// TODO: Cuando tengamos la librería de la pantalla, descomentad esta línea:
-// #include "drivers/oled/NOMBRELIBRERIA"
+struct render_area frame_area = {
+    start_column : 0,
+    end_column : ssd1306_width - 1,
+    start_page : 0,
+    end_page : ssd1306_n_pages - 1
+};
+
+uint8_t ssd[ssd1306_buffer_length]; // Buffer de renderizado de la pantalla
 
 void HAL_output_init(void) {
     // --- 1. CONFIGURACIÓN DE LEDS Y BUZZER ---
@@ -23,18 +31,27 @@ void HAL_output_init(void) {
     }
 
     // --- 2. CONFIGURACIÓN DE LA PANTALLA ---
-    /* * TAREA JOSECHU/PABLO: 
-     * Aquí tenemos que inicializar el I2C y la pantalla.
-     * Seguramente necesitemos algo parecido a esto:
-     */
+    i2c_init(i2c0, ssd1306_i2c_clock * 1000);
+    gpio_set_function(0, GPIO_FUNC_I2C); // SDA
+    gpio_set_function(1, GPIO_FUNC_I2C); // SCL
+    gpio_pull_up(0); // Pull-up para SDA
+    gpio_pull_up(1); // Pull-up para SCL
+
+    ssd1306_init();
+    calculate_render_area_buffer_length(&frame_area); // Preparar el area de renderiado par ael display
+    memset(ssd, 0, ssd1306_buffer_length); // Cero en el buffer del display
+}
+
+void oled_print_text(const char *msg) {
+    // 1. Limpiar el buffer (borrar lo anterior)
+    memset(ssd, 0, ssd1306_buffer_length);
     
-    // i2c_init(OLED_I2C_PORT, OLED_BAUDRATE); // Usando constantes de pinout.h
-    // gpio_set_function(OLED_SDA_PIN, GPIO_FUNC_I2C);
-    // gpio_set_function(OLED_SCL_PIN, GPIO_FUNC_I2C);
-    // gpio_pull_up(OLED_SDA_PIN);
-    // gpio_pull_up(OLED_SCL_PIN);
+    // 2. Dibujar el nuevo texto
+
+    ssd1306_draw_string(ssd, 5, 0, (char*)msg); 
     
-    // NOMBRELIBRERIA_init(); // <--- Llamada a la libreria
+    // 3. Enviar a la pantalla
+    render_on_display(ssd, &frame_area);
 }
 
 void HAL_set_system_state(SystemState_t state) {
@@ -48,21 +65,20 @@ switch (state) {
         case STATE_GREEN:
             // Caso Seguro
             gpio_put(LED_GREEN_PIN, 1);
-            // TODO: oled_print("SEGURO");
+            oled_print_text("SEGURO");
             break;
 
         case STATE_AMBER:
             // Caso Precaución
             gpio_put(LED_ORANGE_PIN, 1);
-            // Opcional: Pitido corto si queremos (por ahora está apagado)
-            // TODO: oled_print("CUIDADO");
+            oled_print_text("PRECAUCION");
             break;
 
         case STATE_RED:
             // Caso Peligro
             gpio_put(LED_RED_PIN, 1);
             gpio_put(BUZZER_PIN, 1); 
-            // TODO: oled_print("STOP!!");
+            oled_print_text("PELIGRO");
             break;
     }
 }

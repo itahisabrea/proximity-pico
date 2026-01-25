@@ -17,6 +17,7 @@ struct render_area frame_area = {
     end_page : ssd1306_n_pages - 1
 };
 
+uint8_t ssd[ssd1306_buffer_length]; // Buffer de renderizado de la pantalla
 // TODO: Cuando tengamos la librería de la pantalla, descomentad esta línea:
 // #include "drivers/oled/NOMBRELIBRERIA"
 
@@ -37,7 +38,7 @@ void HAL_output_init(void) {
      */
     
     // i2c_init(I2C_PORT, 400 * 1000);
-    i2c_init(i2c1, ssd1306_i2c_clock * 1000)
+    i2c_init(i2c1, ssd1306_i2c_clock * 1000);
     gpio_set_function(0, GPIO_FUNC_I2C); // SDA
     gpio_set_function(1, GPIO_FUNC_I2C); // SCL
     gpio_pull_up(0); // Pull-up para SDA
@@ -48,19 +49,19 @@ void HAL_output_init(void) {
     memset(ssd, 0, ssd1306_buffer_length); // Cero en el buffer del display
 }
 
-void HAL_set_system_state(SystemState_t state) {
-    // Apagamos todo para asegurar un estado limpio
-    gpio_put(LED_RED_PIN, 0);
-    gpio_put(LED_ORANGE_PIN, 0);
-    gpio_put(LED_GREEN_PIN, 0);
-    gpio_put(BUZZER_PIN, 0);
-
 void HAL_msg(void) {
     const char *message = "CHICKEN DETECTED";
     memset(ssd, 0, ssd1306_buffer_length);
     ssd1306_draw_string_absolute(ssd, 5, 1, message);
     render_on_display(ssd, &frame_area);
 }
+
+void HAL_set_system_state(SystemState_t state) {
+    // Apagamos todo para asegurar un estado limpio
+    gpio_put(LED_RED_PIN, 0);
+    gpio_put(LED_ORANGE_PIN, 0);
+    gpio_put(LED_GREEN_PIN, 0);
+    gpio_put(BUZZER_PIN, 0);
 
 switch (state) {
         case STATE_GREEN:
@@ -81,7 +82,6 @@ switch (state) {
             gpio_put(LED_RED_PIN, 1);
             gpio_put(BUZZER_PIN, 1); 
             HAL_msg();
-            // TODO: oled_print("STOP!!");
             break;
     }
 }

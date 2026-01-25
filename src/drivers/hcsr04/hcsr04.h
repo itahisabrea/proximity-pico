@@ -1,14 +1,15 @@
-#ifndef DRIVER_DISTANCE_H
-#define DRIVER_DISTANCE_H
+/*
+ * Archivo: hcsr04.h
+ * Descripción: Cabecera del driver. Interfaz limpia y sencilla.
+ */
 
-#include <stdbool.h>
+#ifndef HCSR04_H
+#define HCSR04_H
 
-typedef struct {
-    int trig_gpio;
-    int echo_gpio;
-} distance_sensor_t;
+// Inicializa los pines (los coge internamente de pinout.h)
+void DRIVER_hcsr04_init(void);
 
-void distance_init(const distance_sensor_t *s);
-bool distance_read_cm(const distance_sensor_t *s, float *out_cm);
+// Lee la distancia. Devuelve el valor en cm o -1.0 si falla.
+float DRIVER_hcsr04_read(void);
 
-#endif
+#endif // HCSR04_H

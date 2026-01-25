@@ -12,14 +12,13 @@ pico_sdk_init()
 
 # -----------------------------------------------------------
 # LISTA DE ARCHIVOS .C
-# Aquí añadimos todos los archivos que hemos creado.
 # -----------------------------------------------------------
 add_executable(proximity_pico
     src/app/main.c                    
     src/hal/hal_sensor.c           
     src/hal/hal_output.c           
     src/drivers/hcsr04/hcsr04.c    
-    # NOTA: Cuando tengamos el driver de la pantalla, añadir aquí src/drivers/oled/ssd1306.c
+    src/drivers/oled/ssd1306.c
 )
 
 target_include_directories(proximity_pico PRIVATE

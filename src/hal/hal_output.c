@@ -1,6 +1,6 @@
 /*
  * Archivo: hal_output.c
- * Descripción: Implementación del control de luces, sonido y pantalla.
+ * Descripción: Implementación corregida para evitar reinicios constantes
  */
 
 #include "hal/hal_output.h"
@@ -9,29 +9,22 @@
 #include <string.h>
 #include "hardware/i2c.h"
 #include "drivers/oled/ssd1306.h"
-
 #include "pico/time.h"
 
-// --- 2. VARIABLES Y FUNCIONES DEL BUZZER (TU CÓDIGO AQUÍ) ---
-
-// Control del parpadeo del buzzer (activo)
+// --- VARIABLES Y FUNCIONES DEL BUZZER ---
 static repeating_timer_t temporizador_buzzer;
 static bool parpadeo_buzzer_activo = false;
 
-// Alterna ON/OFF del buzzer activo (salida digital)
 static bool alternar_buzzer_cb(repeating_timer_t *t) {
     static bool nivel = false;
     nivel = !nivel;
-    // Usamos BUZZER_PIN que viene de pinout.h
     gpio_put(BUZZER_PIN, nivel); 
-    return true;  // seguir repitiendo
+    return true; 
 }
 
-// Inicia el parpadeo del buzzer con un periodo total en ms
 static void iniciar_parpadeo_buzzer(int periodo_ms) {
     if (parpadeo_buzzer_activo) return;
 
-    // Llamada cada periodo_ms/2 para tener 50% de ciclo
     bool ok = add_repeating_timer_ms(-(periodo_ms / 2), alternar_buzzer_cb, NULL, &temporizador_buzzer);
     if (ok) {
         parpadeo_buzzer_activo = true;
@@ -40,39 +33,33 @@ static void iniciar_parpadeo_buzzer(int periodo_ms) {
     }
 }
 
-// Detiene el parpadeo y apaga el buzzer
 static void detener_parpadeo_buzzer(void) {
-    if (!parpadeo_buzzer_activo) {
-        // Aseguramos que esté apagado aunque no parpadee
-        gpio_put(BUZZER_PIN, 0); 
-        return;
+    // Solo cancelamos si realmente hay un temporizador activo
+    if (parpadeo_buzzer_activo) {
+        cancel_repeating_timer(&temporizador_buzzer);
+        parpadeo_buzzer_activo = false;
     }
-
-    cancel_repeating_timer(&temporizador_buzzer);
-    parpadeo_buzzer_activo = false;
-    gpio_put(BUZZER_PIN, 0); // asegurar apagado final
+    // Aseguramos silencio
+    gpio_put(BUZZER_PIN, 0); 
 }
 
-// --- 3. VARIABLES DE PANTALLA ---
+// --- VARIABLES DE PANTALLA ---
 struct render_area frame_area = {
     .start_column = 0,
     .end_column = ssd1306_width - 1,
     .start_page = 0,
     .end_page = ssd1306_n_pages - 1
 };
-
 uint8_t ssd[ssd1306_buffer_length]; 
 
-// --- 4. FUNCIONES DE PANTALLA ---
 void oled_print_text(const char *msg) {
     memset(ssd, 0, ssd1306_buffer_length);
     ssd1306_draw_string(ssd, 5, 0, (char*)msg); 
     render_on_display(ssd, &frame_area);
 }
 
-// --- 5. INICIALIZACIÓN ---
+// --- INICIALIZACIÓN ---
 void HAL_output_init(void) {
-    // Configuración GPIOs
     const uint pins_salida[] = {LED_RED_PIN, LED_ORANGE_PIN, LED_GREEN_PIN, BUZZER_PIN};
     for (int i = 0; i < 4; i++) {
         gpio_init(pins_salida[i]);
@@ -80,7 +67,6 @@ void HAL_output_init(void) {
         gpio_put(pins_salida[i], 0);
     }
 
-    // Configuración OLED (I2C0)
     i2c_init(i2c0, ssd1306_i2c_clock * 1000);
     gpio_set_function(OLED_SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(OLED_SCL_PIN, GPIO_FUNC_I2C);
@@ -92,35 +78,40 @@ void HAL_output_init(void) {
     memset(ssd, 0, ssd1306_buffer_length);
 }
 
-// --- 6. CONTROL DE ESTADOS (AQUÍ USAMOS TU CÓDIGO) ---
+// --- CONTROL DE ESTADOS CORREGIDO ---
 void HAL_set_system_state(SystemState_t state) {
-    // Apagamos LEDs (el buzzer lo gestionamos abajo)
+    // 1. Apagamos LEDs
     gpio_put(LED_RED_PIN, 0);
     gpio_put(LED_ORANGE_PIN, 0);
     gpio_put(LED_GREEN_PIN, 0);
 
-    // IMPORTANTE: Detenemos el buzzer por defecto.
-    // Si el estado nuevo requiere buzzer, lo encendemos dentro del switch.
-    // Si no, se queda apagado gracias a esta llamada.
-    detener_parpadeo_buzzer();
-
-switch (state) {
+    switch (state) {
         case STATE_GREEN:
             gpio_put(LED_GREEN_PIN, 1);
             oled_print_text("SEGURO");
-            // Buzzer apagado (ya lo hizo detener_parpadeo_buzzer arriba)
+            
+            // Aquí SI queremos silencio total
+            detener_parpadeo_buzzer(); 
             break;
 
         case STATE_AMBER:
             gpio_put(LED_ORANGE_PIN, 1);
             oled_print_text("PRECAUCION");
-            //Pitido lento en ambar
-            iniciar_parpadeo_buzzer(1000); // 1 segundo (lento)
+            
+            // Aquí iniciamos el parpadeo.
+            iniciar_parpadeo_buzzer(1000); 
             break;
 
         case STATE_RED:
             gpio_put(LED_RED_PIN, 1);
             oled_print_text("PELIGRO");
+            
+            // 1. Si veníamos de Ámbar, hay que matar el temporizador
+            if (parpadeo_buzzer_activo) {
+                detener_parpadeo_buzzer();
+            }
+            
+            // 2. Encendemos Fijo
             gpio_put(BUZZER_PIN, 1); 
             break;
     }

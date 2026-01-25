@@ -34,8 +34,8 @@ void HAL_output_init(void) {
     i2c_init(i2c0, ssd1306_i2c_clock * 1000);
     gpio_set_function(0, GPIO_FUNC_I2C); // SDA
     gpio_set_function(1, GPIO_FUNC_I2C); // SCL
-    gpio_pull_up(0); // Pull-up para SDA
-    gpio_pull_up(1); // Pull-up para SCL
+    gpio_pull_up(OLED_SDA_PIN);
+    gpio_pull_up(OLED_SCL_PIN);
 
     ssd1306_init();
     calculate_render_area_buffer_length(&frame_area); // Preparar el area de renderiado par ael display

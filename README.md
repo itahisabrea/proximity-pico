@@ -31,9 +31,23 @@ El proyecto sigue una estructura modular estricta para garantizar la escalabilid
 .
 ├── CMakeLists.txt
 └── src/
-    ├── app/       
-    ├── hal/        
-    └── drivers/   
+    ├── app/
+         └── main.c
+    ├── hal/
+         ├── hal_output.c
+         ├── hal_output.h
+         ├── hal_sensor.c
+         ├── hal_sensor.h
+         └── pinout.h
+    └── drivers/
+         ├── hcsr04/
+            ├── hcsr04.h
+            └── hcsr04.c
+         └── oled/
+            ├── font.h
+            ├── i2c.h
+            ├── ssd1306.h
+            └── ssd1306.c
 ```
 
 ### ⚠️ Regla de Oro de Integración

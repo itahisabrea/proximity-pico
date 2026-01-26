@@ -23,6 +23,7 @@ Lista de materiales utilizados en el proyecto:
 
 
 
+
 ## 🏗️ Arquitectura del Software
 
 El proyecto sigue una estructura modular estricta para garantizar la escalabilidad y el mantenimiento:
@@ -126,6 +127,11 @@ Adaptando la metodología al flujo de trabajo del equipo, se definen los siguien
 Siguiendo un enfoque de calidad total, la fase de **Validación y Documentación** es asumida por **todo el equipo** de forma transversal:
 * **Pruebas Cruzadas:** Cada miembro valida el código/hardware desarrollado por otro compañero.
 * **Documentación:** Todos contribuyen a la redacción de la memoria técnica y la grabación de la demo final.
+
+## 🐥 Demostración
+
+https://github.com/user-attachments/assets/9c223d88-2950-4b62-ab8a-f47f5badd737
+
 
 ## 📜 Créditos y Referencias
 
